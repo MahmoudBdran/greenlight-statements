@@ -38,27 +38,27 @@ public class JobType {
     private Admin updatedBy;
 
     @CreatedDate
-    private LocalDateTime createdAt=LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @OneToMany
-    @JoinColumn(name = "invoice_id")
-    private List<Invoice> invoice;
-    private String type; // "جارية" أو "ختامية"
+
+    private String type;
 
     private LocalDate jobTypeDate;
 
 
-
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id",referencedColumnName = "id")
     private Owner owner;
 
     @ManyToOne
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id",referencedColumnName = "id")
     private Company company;
+    @ManyToOne
+    @JoinColumn(name = "contractor_id",referencedColumnName = "id")
+    private Contractor contractor;
 
 
 }

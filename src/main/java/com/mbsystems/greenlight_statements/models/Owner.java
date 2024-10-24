@@ -54,13 +54,13 @@ public class Owner {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
-
-    @OneToMany()
-    @JoinColumn(name = "invoice_id",referencedColumnName = "id")
-    private List<Invoice> invoices;
-    @OneToMany()
-    @JoinColumn(name = "jobtype_id",referencedColumnName = "id")
+    @OneToMany(mappedBy = "owner")
     private List<JobType> jobTypes;
+
+    @OneToMany(mappedBy = "jobType.owner")
+    private List<Invoice> invoices;
+
+
+
 
 }

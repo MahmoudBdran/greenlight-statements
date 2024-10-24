@@ -39,9 +39,9 @@ public class Company {
 
 
 
-    @OneToMany
-    @JoinColumn(name = "invoice_id",referencedColumnName = "id")
-    private List<Invoice> invoices;
+//    @OneToMany
+//    @JoinColumn(name = "invoice_id",referencedColumnName = "id")
+//    private List<Invoice> invoices;
 
     @Column(length = 225)
     private String notes;
@@ -69,7 +69,11 @@ public class Company {
 
     @Column(length = 50)
     private String phones;
+    @OneToMany(mappedBy = "company")
+    private List<JobType> jobTypes;
 
+    @OneToMany(mappedBy = "jobType.company")
+    private List<Invoice> invoices;
     public Company(Long id) {
         this.id = id;
     }

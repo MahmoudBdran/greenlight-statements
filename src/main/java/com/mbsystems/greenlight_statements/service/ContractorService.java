@@ -4,8 +4,10 @@ import com.mbsystems.greenlight_statements.enums.StartBalanceStatusEnum;
 import com.mbsystems.greenlight_statements.models.Account;
 import com.mbsystems.greenlight_statements.models.AccountType;
 import com.mbsystems.greenlight_statements.models.Contractor;
+import com.mbsystems.greenlight_statements.models.JobType;
 import com.mbsystems.greenlight_statements.repository.AccountRepository;
 import com.mbsystems.greenlight_statements.repository.ContractorRepository;
+import com.mbsystems.greenlight_statements.repository.JobTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Service
 public class ContractorService {
+    @Autowired
+    private JobTypeRepository jobTypeRepository;
     @Autowired
     private ContractorRepository contractorRepository;
     @Autowired
@@ -82,5 +86,9 @@ public class ContractorService {
         return accountRepository.save(account);
 
     }
+    public List<JobType> getJobTypesByContractorId(Long contractorId) {
+        return jobTypeRepository.findByContractorId(contractorId);
+    }
+
 }
 

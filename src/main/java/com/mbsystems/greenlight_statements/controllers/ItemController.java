@@ -19,7 +19,7 @@ public class ItemController {
         return itemService.getAllItems();
     }
 
-    @PostMapping
+    @PostMapping()
     public Item addItem(@RequestBody Item item) {
         return itemService.saveItem(item);
     }

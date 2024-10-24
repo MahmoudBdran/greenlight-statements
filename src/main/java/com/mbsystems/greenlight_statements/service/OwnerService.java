@@ -1,12 +1,11 @@
 package com.mbsystems.greenlight_statements.service;
 
 import com.mbsystems.greenlight_statements.enums.StartBalanceStatusEnum;
-import com.mbsystems.greenlight_statements.models.Account;
-import com.mbsystems.greenlight_statements.models.AccountType;
-import com.mbsystems.greenlight_statements.models.Contractor;
-import com.mbsystems.greenlight_statements.models.Owner;
+import com.mbsystems.greenlight_statements.models.*;
 import com.mbsystems.greenlight_statements.repository.AccountRepository;
+import com.mbsystems.greenlight_statements.repository.JobTypeRepository;
 import com.mbsystems.greenlight_statements.repository.OwnerRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,8 @@ import java.util.List;
 @Service
 public class OwnerService {
     @Autowired
+    private JobTypeRepository jobTypeRepository;
+    @Autowired
     private OwnerRepository ownerRepository;
     @Autowired
     private AccountRepository accountRepository;
@@ -23,11 +24,11 @@ public class OwnerService {
     public List<Owner> getAllOwners() {
         return ownerRepository.findAll();
     }
-
+    @Transactional
     public Owner saveOwner(Owner owner) {
         //return ownerRepository.save(owner);
         if(validateOwnerInDB(owner)){
-            owner.setAccount(new Account(initiateAccountForContractor(owner).getId()));
+            owner.setAccount(new Account(initiateAccountForOwner(owner).getId()));
             return ownerRepository.save(owner);
         }else{
             return null;
@@ -49,7 +50,7 @@ public class OwnerService {
     }
 
 
-    public Account initiateAccountForContractor(Owner owner){
+    public Account initiateAccountForOwner(Owner owner){
         Account account = new Account();
         account.setName(owner.getName());
         account.setStartBalanceStatus(owner.getStartBalanceStatus());
@@ -83,5 +84,11 @@ public class OwnerService {
         return accountRepository.save(account);
 
     }
+    public List<JobType> getJobTypesByOwnerId(Long ownerId) {
+        return jobTypeRepository.findByOwnerId(ownerId);
+    }
+
+
+
 }
 

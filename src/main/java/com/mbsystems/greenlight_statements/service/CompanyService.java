@@ -4,6 +4,7 @@ import com.mbsystems.greenlight_statements.enums.StartBalanceStatusEnum;
 import com.mbsystems.greenlight_statements.models.*;
 import com.mbsystems.greenlight_statements.repository.AccountRepository;
 import com.mbsystems.greenlight_statements.repository.CompanyRepository;
+import com.mbsystems.greenlight_statements.repository.JobTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,8 @@ import java.util.List;
 
 @Service
 public class CompanyService {
+    @Autowired
+    private JobTypeRepository jobTypeRepository;
     @Autowired
     private CompanyRepository companyRepository;
     @Autowired
@@ -79,5 +82,9 @@ public class CompanyService {
         return accountRepository.save(account);
 
     }
+    public List<JobType> getJobTypesByCompanyId(Long companyId) {
+        return jobTypeRepository.findByCompanyId(companyId);
+    }
+
 }
 

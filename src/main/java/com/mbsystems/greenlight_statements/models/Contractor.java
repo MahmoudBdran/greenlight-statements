@@ -39,9 +39,10 @@ public class Contractor {
 
     private BigDecimal currentBalance = BigDecimal.ZERO; // Set default to 0.00 using BigDecimal.ZERO
 
-    @OneToMany()
-    @JoinColumn(name = "invoice_id",referencedColumnName = "id")
-    private List<Invoice> invoices;
+
+//    @OneToMany()
+//    @JoinColumn(name = "invoice_id",referencedColumnName = "id")
+//    private List<Invoice> invoices;
 
     @Column(length = 225)
     private String notes;
@@ -57,7 +58,7 @@ public class Contractor {
     private Admin updatedBy;
 
     @CreatedDate
-    private LocalDateTime createdAt=LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
@@ -69,7 +70,11 @@ public class Contractor {
 
     @Column(length = 50)
     private String phones;
+    @OneToMany(mappedBy = "contractor")
+    private List<JobType> jobTypes;
 
+    @OneToMany(mappedBy = "jobType.contractor")
+    private List<Invoice> invoices;
     public Contractor(Long id) {
         this.id = id;
     }

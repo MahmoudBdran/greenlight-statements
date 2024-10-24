@@ -44,28 +44,39 @@ public class Invoice {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
-    @ManyToOne
-    @JoinColumn(name = "contractor_id",referencedColumnName = "id")
-    private Contractor contractor;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "contractor_id",referencedColumnName = "id")
+//    private Contractor contractor;
     private String type; // "جارية" أو "ختامية"
 
     private LocalDate invoiceDate;
 
     private BigDecimal amount;
 
+    @Column(name = "what_remain", precision = 10, scale = 2)
+    private BigDecimal whatRemain;
+    @Column(name = "what_paid", precision = 10, scale = 2)
+    private BigDecimal whatPaid;
 
+
+//    @ManyToOne
+//    @JoinColumn(name = "owner_id",referencedColumnName = "id")
+//    private Owner owner;
+
+//    @ManyToOne
+//    @JoinColumn(name = "company_id",referencedColumnName = "id")
+//    private Company company;
+
+
+//    @OneToOne
+//    @JoinColumn(name = "account_id",referencedColumnName = "id")
+//    private Account account;
     @ManyToOne
-    @JoinColumn(name = "owner_id",referencedColumnName = "id")
-    private Owner owner;
-
-    @ManyToOne
-    @JoinColumn(name = "company_id",referencedColumnName = "id")
-    private Company company;
+    @JoinColumn(name = "jobtype_id", referencedColumnName = "id")
+    private JobType jobType;
 
 
-    @OneToOne
-    @JoinColumn(name = "account_id",referencedColumnName = "id")
-    private Account account;
+
 
 }

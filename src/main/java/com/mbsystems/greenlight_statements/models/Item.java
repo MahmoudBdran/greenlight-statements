@@ -27,8 +27,8 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne()
-    @JoinColumn(name = "inovice_id" , referencedColumnName = "id")
-    private Invoice Invoice_id;
+    @JoinColumn(name = "invoice_id" , referencedColumnName = "id")
+    private Invoice InvoiceId;
     private String name;
     @ManyToOne()
     @JoinColumn(name = "unit_id",referencedColumnName = "id")
@@ -43,6 +43,7 @@ public class Item {
     private BigDecimal percentage;
 
     private BigDecimal itemPrice;
+    private BigDecimal itemQuantity;
 
     private BigDecimal totalPrice;
 
