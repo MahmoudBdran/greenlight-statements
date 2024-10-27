@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface ContractorRepository extends JpaRepository<Contractor,Long> {
     Contractor findByName(String name);
-    List<JobType> findJobTypesByContractorId(Long contractorId);
-    List<Invoice> findInvoicesByContractorId(Long contractorId);
+//    List<JobType> findJobTypesByContractorId(Long contractorId);
+//    List<Invoice> findInvoicesByContractorId(Long contractorId);
 }

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CompanyRepository extends JpaRepository<Company,Long> {
     Company findByName(String name);
-    List<JobType> findJobTypesByCompanyId(Long companyId);
-    List<Invoice> findInvoicesByCompanyId(Long companyId);
+//    List<JobType> findJobTypesByCompanyId(Long companyId);
+//    List<Invoice> findInvoicesByCompanyId(Long companyId);
 }

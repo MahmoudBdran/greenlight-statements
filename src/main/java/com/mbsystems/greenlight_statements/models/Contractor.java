@@ -70,11 +70,11 @@ public class Contractor {
 
     @Column(length = 50)
     private String phones;
-    @OneToMany(mappedBy = "contractor")
-    private List<JobType> jobTypes;
-
-    @OneToMany(mappedBy = "jobType.contractor")
-    private List<Invoice> invoices;
+//    @OneToMany(mappedBy = "contractor")
+//    private List<JobType> jobTypes;
+//
+//    @OneToMany(mappedBy = "jobType.contractor")
+//    private List<Invoice> invoices;
     public Contractor(Long id) {
         this.id = id;
     }

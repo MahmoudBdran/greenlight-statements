@@ -1,5 +1,6 @@
 package com.mbsystems.greenlight_statements.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -70,10 +71,11 @@ public class Company {
     @Column(length = 50)
     private String phones;
     @OneToMany(mappedBy = "company")
+    @JsonIgnore
     private List<JobType> jobTypes;
-
-    @OneToMany(mappedBy = "jobType.company")
-    private List<Invoice> invoices;
+//
+//    @OneToMany(mappedBy = "jobType.company")
+//    private List<Invoice> invoices;
     public Company(Long id) {
         this.id = id;
     }

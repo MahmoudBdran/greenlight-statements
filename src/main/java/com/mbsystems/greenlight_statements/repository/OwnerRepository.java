@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface OwnerRepository extends JpaRepository<Owner,Long> {
     Owner findByName(String name);
-    List<JobType> findJobTypesByOwnerId(Long ownerId);
-    List<Invoice> findInvoicesByOwnerId(Long ownerId);
+//    List<JobType> findJobTypesByOwnerId(Long ownerId);
+//    List<Invoice> findInvoicesByOwnerId(Long ownerId);
 
 }

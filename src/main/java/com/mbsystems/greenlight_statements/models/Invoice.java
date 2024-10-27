@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -75,7 +76,8 @@ public class Invoice {
     @ManyToOne
     @JoinColumn(name = "jobtype_id", referencedColumnName = "id")
     private JobType jobType;
-
+    @OneToMany(mappedBy = "Invoice")
+   private List<Item> items;
 
 
 
