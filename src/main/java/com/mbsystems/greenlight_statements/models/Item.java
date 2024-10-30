@@ -21,14 +21,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "tables")
+@Table(name = "items")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne()
     @JoinColumn(name = "invoice_id" , referencedColumnName = "id")
-    private Invoice InvoiceId;
+    private Invoice invoice;
     private String name;
     @ManyToOne()
     @JoinColumn(name = "unit_id",referencedColumnName = "id")

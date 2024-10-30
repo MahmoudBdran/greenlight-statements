@@ -1,5 +1,6 @@
 package com.mbsystems.greenlight_statements.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -76,7 +77,8 @@ public class Invoice {
     @ManyToOne
     @JoinColumn(name = "jobtype_id", referencedColumnName = "id")
     private JobType jobType;
-    @OneToMany(mappedBy = "Invoice")
+    @OneToMany(mappedBy = "invoice")
+    @JsonIgnore
    private List<Item> items;
 
 

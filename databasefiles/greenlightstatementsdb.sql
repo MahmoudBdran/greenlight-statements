@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2024 at 11:02 PM
+-- Generation Time: Oct 30, 2024 at 01:39 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -49,7 +49,10 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `active`, `created_at`, `current_balance`, `is_parent`, `name`, `notes`, `start_balance`, `start_balance_status`, `updated_at`, `account_type`, `added_by`, `parent_account_number`, `updated_by`) VALUES
-(2, b'1', '2024-10-12 18:27:37.000000', 0.00, b'0', 'mahmoud bdran', 'this is the my note', 0.00, 3, '2024-10-12 18:27:37.000000', 3, NULL, NULL, NULL);
+(2, b'1', '2024-10-30 14:31:25.000000', 0.00, b'0', 'owner1', 'Preferred payment method is bank transfer', 0.00, 3, '2024-10-30 14:31:25.000000', 3, NULL, NULL, NULL),
+(3, b'1', '2024-10-30 14:31:35.000000', 0.00, b'0', 'owner2', 'Preferred payment method is bank transfer', 0.00, 3, '2024-10-30 14:31:35.000000', 3, NULL, NULL, NULL),
+(4, b'1', '2024-10-30 14:32:59.000000', 0.00, b'0', 'mahmoud bdran', 'this is the note of the contractor', 0.00, 3, '2024-10-30 14:32:59.000000', 3, NULL, NULL, NULL),
+(6, b'1', '2024-10-30 14:35:44.000000', NULL, b'0', 'glory-co', 'this is the note of the glory-co', 0.00, 3, '2024-10-30 14:35:44.000000', 3, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -108,14 +111,24 @@ CREATE TABLE `company` (
   `active` bit(1) NOT NULL,
   `address` varchar(250) DEFAULT NULL,
   `created_at` datetime(6) NOT NULL,
+  `current_balance` decimal(38,2) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `notes` varchar(225) DEFAULT NULL,
   `phones` varchar(50) DEFAULT NULL,
+  `start_balance` decimal(38,2) DEFAULT NULL,
+  `start_balance_status` int(11) NOT NULL,
   `updated_at` datetime(6) DEFAULT NULL,
   `account_id` bigint(20) DEFAULT NULL,
   `added_by` bigint(20) DEFAULT NULL,
   `updated_by` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `company`
+--
+
+INSERT INTO `company` (`id`, `active`, `address`, `created_at`, `current_balance`, `name`, `notes`, `phones`, `start_balance`, `start_balance_status`, `updated_at`, `account_id`, `added_by`, `updated_by`) VALUES
+(1, b'0', 'Cairo,Nasr City , district 8', '2024-10-30 14:35:44.000000', 0.00, 'glory-co', 'this is the note of the glory-co', '01205057427', NULL, 0, '2024-10-30 14:35:44.000000', 6, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -128,24 +141,24 @@ CREATE TABLE `contractor` (
   `active` bit(1) NOT NULL,
   `address` varchar(250) DEFAULT NULL,
   `created_at` datetime(6) DEFAULT NULL,
+  `current_balance` decimal(38,2) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `notes` varchar(225) DEFAULT NULL,
   `phones` varchar(50) DEFAULT NULL,
+  `start_balance` decimal(38,2) DEFAULT NULL,
+  `start_balance_status` int(11) NOT NULL,
   `updated_at` datetime(6) DEFAULT NULL,
   `account_id` bigint(20) DEFAULT NULL,
   `added_by` bigint(20) DEFAULT NULL,
-  `updated_by` bigint(20) DEFAULT NULL,
-  `current_balance` decimal(38,2) DEFAULT NULL,
-  `start_balance` decimal(38,2) DEFAULT NULL,
-  `start_balance_status` int(11) NOT NULL
+  `updated_by` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `contractor`
 --
 
-INSERT INTO `contractor` (`id`, `active`, `address`, `created_at`, `name`, `notes`, `phones`, `updated_at`, `account_id`, `added_by`, `updated_by`, `current_balance`, `start_balance`, `start_balance_status`) VALUES
-(1, b'1', 'Matrouh , Marsa Matrouh', '2024-10-12 18:27:37.000000', 'mahmoud bdran', 'this is the my note', '01205057427', '2024-10-12 18:27:37.000000', 2, NULL, NULL, 0.00, 0.00, 3);
+INSERT INTO `contractor` (`id`, `active`, `address`, `created_at`, `current_balance`, `name`, `notes`, `phones`, `start_balance`, `start_balance_status`, `updated_at`, `account_id`, `added_by`, `updated_by`) VALUES
+(1, b'1', 'Marsa Matrouh , kilo 7', '2024-10-30 14:32:59.000000', 0.00, 'mahmoud bdran', 'this is the note of the contractor', '01205057427', 0.00, 3, '2024-10-30 14:32:59.000000', 4, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -164,13 +177,42 @@ CREATE TABLE `invoice` (
   `start_date` date DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `updated_at` datetime(6) DEFAULT NULL,
-  `account_id` bigint(20) DEFAULT NULL,
+  `what_paid` decimal(10,2) DEFAULT NULL,
+  `what_remain` decimal(10,2) DEFAULT NULL,
   `added_by` bigint(20) DEFAULT NULL,
-  `company_id` bigint(20) DEFAULT NULL,
-  `contractor_id` bigint(20) DEFAULT NULL,
-  `owner_id` bigint(20) DEFAULT NULL,
-  `updated_by` bigint(20) DEFAULT NULL,
-  `invoice_id` bigint(20) DEFAULT NULL
+  `jobtype_id` bigint(20) DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `invoice`
+--
+
+INSERT INTO `invoice` (`id`, `amount`, `created_at`, `description`, `end_date`, `invoice_date`, `name`, `start_date`, `type`, `updated_at`, `what_paid`, `what_remain`, `added_by`, `jobtype_id`, `updated_by`) VALUES
+(2, 5000.00, '2024-10-30 14:38:05.000000', 'Description of the statement', '2024-12-31', '2024-10-20', 'جبس جاري 1', '2024-01-01', 'جارية', '2024-10-30 14:38:05.000000', NULL, NULL, NULL, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `items`
+--
+
+CREATE TABLE `items` (
+  `id` bigint(20) NOT NULL,
+  `made_in_period` decimal(38,2) DEFAULT NULL,
+  `created_at` datetime(6) DEFAULT NULL,
+  `finished_till_now` decimal(38,2) DEFAULT NULL,
+  `item_price` decimal(38,2) DEFAULT NULL,
+  `item_quantity` decimal(38,2) DEFAULT NULL,
+  `last_made` decimal(38,2) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `percentage` decimal(38,2) DEFAULT NULL,
+  `total_price` decimal(38,2) DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL,
+  `unit_id` bigint(20) DEFAULT NULL,
+  `added_by` bigint(20) DEFAULT NULL,
+  `invoice_id` bigint(20) DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -189,10 +231,17 @@ CREATE TABLE `job_type` (
   `updated_at` datetime(6) DEFAULT NULL,
   `added_by` bigint(20) DEFAULT NULL,
   `company_id` bigint(20) DEFAULT NULL,
+  `contractor_id` bigint(20) DEFAULT NULL,
   `owner_id` bigint(20) DEFAULT NULL,
-  `updated_by` bigint(20) DEFAULT NULL,
-  `jobtype_id` bigint(20) DEFAULT NULL
+  `updated_by` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `job_type`
+--
+
+INSERT INTO `job_type` (`id`, `created_at`, `description`, `job_type_date`, `name`, `type`, `updated_at`, `added_by`, `company_id`, `contractor_id`, `owner_id`, `updated_by`) VALUES
+(1, '2024-10-30 14:37:57.000000', 'Installation of gebs systems', '2024-10-20', 'جبس', 'جارية', '2024-10-30 14:37:57.000000', NULL, NULL, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -204,15 +253,27 @@ CREATE TABLE `owner` (
   `id` bigint(20) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `created_at` datetime(6) DEFAULT NULL,
+  `current_balance` decimal(38,2) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
+  `notes` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
+  `start_balance` decimal(38,2) DEFAULT NULL,
+  `start_balance_status` int(11) NOT NULL,
   `updated_at` datetime(6) DEFAULT NULL,
   `account_id` bigint(20) DEFAULT NULL,
   `added_by` bigint(20) DEFAULT NULL,
   `updated_by` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `owner`
+--
+
+INSERT INTO `owner` (`id`, `address`, `created_at`, `current_balance`, `description`, `email`, `name`, `notes`, `phone`, `start_balance`, `start_balance_status`, `updated_at`, `account_id`, `added_by`, `updated_by`) VALUES
+(1, 'Alex road', '2024-10-30 14:31:25.000000', 0.00, 'Owner of several properties', 'owner1@example.com', 'owner1', 'Preferred payment method is bank transfer', '123-456-7890', 0.00, 3, '2024-10-30 14:31:25.000000', 2, NULL, NULL),
+(2, '123 Elm Street', '2024-10-30 14:31:35.000000', 0.00, 'Owner of several properties', 'owner2@example.com', 'owner2', 'Preferred payment method is bank transfer', '123-456-7890', 0.00, 3, '2024-10-30 14:31:35.000000', 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -228,35 +289,11 @@ CREATE TABLE `roles` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tables`
---
-
-CREATE TABLE `tables` (
-  `id` bigint(20) NOT NULL,
-  `made_in_period` decimal(38,2) DEFAULT NULL,
-  `created_at` datetime(6) DEFAULT NULL,
-  `finished_till_now` decimal(38,2) DEFAULT NULL,
-  `item_price` decimal(38,2) DEFAULT NULL,
-  `last_made` decimal(38,2) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `percentage` decimal(38,2) DEFAULT NULL,
-  `total_price` decimal(38,2) DEFAULT NULL,
-  `updated_at` datetime(6) DEFAULT NULL,
-  `inovice_id` bigint(20) DEFAULT NULL,
-  `unit_id` bigint(20) DEFAULT NULL,
-  `added_by` bigint(20) DEFAULT NULL,
-  `updated_by` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `unit`
 --
 
 CREATE TABLE `unit` (
   `id` bigint(20) NOT NULL,
-  `unit` varchar(255) DEFAULT NULL,
   `created_at` datetime(6) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `updated_at` datetime(6) DEFAULT NULL,
@@ -324,13 +361,19 @@ ALTER TABLE `contractor`
 --
 ALTER TABLE `invoice`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `UK_gqf8jc7qmukdqpr60mahwohkf` (`account_id`),
   ADD KEY `FKm79bilqxrulfn5rr7lsufjs13` (`added_by`),
-  ADD KEY `FKaslug8pfl346tbeuslh98n7k5` (`company_id`),
-  ADD KEY `FKd3ig3yw7nfi41ul3hsvpeuu5a` (`contractor_id`),
-  ADD KEY `FKqkhdidjn05sm5ij3rx7541i9g` (`owner_id`),
-  ADD KEY `FKn23j37tfydmexnfpeksxt7cd4` (`updated_by`),
-  ADD KEY `FKbuulovdg2uc8ljj60joeeqgjh` (`invoice_id`);
+  ADD KEY `FK4gqkykkttr8ug0v46ors9khbe` (`jobtype_id`),
+  ADD KEY `FKn23j37tfydmexnfpeksxt7cd4` (`updated_by`);
+
+--
+-- Indexes for table `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKcw9omccpkdvalmqlo50u0n9ws` (`unit_id`),
+  ADD KEY `FK5j8vgsyucey8evtof9xe29tsq` (`added_by`),
+  ADD KEY `FKhisvl0kn99a6glawu8qlqdg93` (`invoice_id`),
+  ADD KEY `FKhjc8vpk27hi2n3i1ehemacdfd` (`updated_by`);
 
 --
 -- Indexes for table `job_type`
@@ -339,9 +382,9 @@ ALTER TABLE `job_type`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FKe29nw5y7ut8xwqoemokahhfq` (`added_by`),
   ADD KEY `FKgd2ymndgtnt1n0m8jd932uf38` (`company_id`),
+  ADD KEY `FKqlaypy0rav7ho9f6i53rjeapb` (`contractor_id`),
   ADD KEY `FKlfjheo4i5qgoqnfosxawsuujc` (`owner_id`),
-  ADD KEY `FKi0cf4krfr07nei4u7jfp4ebkt` (`updated_by`),
-  ADD KEY `FKfskdummxelw9iu0ch04jg9yne` (`jobtype_id`);
+  ADD KEY `FKi0cf4krfr07nei4u7jfp4ebkt` (`updated_by`);
 
 --
 -- Indexes for table `owner`
@@ -358,16 +401,6 @@ ALTER TABLE `owner`
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `UK_nb4h0p6txrmfc0xbrd1kglp9t` (`name`);
-
---
--- Indexes for table `tables`
---
-ALTER TABLE `tables`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `FKskehccp2sptq3c20miy7y43qg` (`inovice_id`),
-  ADD KEY `FK46pakm4434bfqx07vo5h3g6sh` (`unit_id`),
-  ADD KEY `FKg0j8tatx6e1qcbdn9ah2637nw` (`added_by`),
-  ADD KEY `FKh79je24xar6appbwdgm1jcjcp` (`updated_by`);
 
 --
 -- Indexes for table `unit`
@@ -392,7 +425,7 @@ ALTER TABLE `users_roles`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `account_types`
@@ -410,42 +443,42 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `contractor`
 --
 ALTER TABLE `contractor`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `job_type`
 --
 ALTER TABLE `job_type`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `owner`
 --
 ALTER TABLE `owner`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tables`
---
-ALTER TABLE `tables`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
@@ -487,23 +520,28 @@ ALTER TABLE `contractor`
 -- Constraints for table `invoice`
 --
 ALTER TABLE `invoice`
-  ADD CONSTRAINT `FK50k7usua8osmcapalh3wgcudn` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`),
-  ADD CONSTRAINT `FKaslug8pfl346tbeuslh98n7k5` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
-  ADD CONSTRAINT `FKbuulovdg2uc8ljj60joeeqgjh` FOREIGN KEY (`invoice_id`) REFERENCES `owner` (`id`),
-  ADD CONSTRAINT `FKd3ig3yw7nfi41ul3hsvpeuu5a` FOREIGN KEY (`contractor_id`) REFERENCES `contractor` (`id`),
+  ADD CONSTRAINT `FK4gqkykkttr8ug0v46ors9khbe` FOREIGN KEY (`jobtype_id`) REFERENCES `job_type` (`id`),
   ADD CONSTRAINT `FKm79bilqxrulfn5rr7lsufjs13` FOREIGN KEY (`added_by`) REFERENCES `admins` (`id`),
-  ADD CONSTRAINT `FKn23j37tfydmexnfpeksxt7cd4` FOREIGN KEY (`updated_by`) REFERENCES `admins` (`id`),
-  ADD CONSTRAINT `FKqkhdidjn05sm5ij3rx7541i9g` FOREIGN KEY (`owner_id`) REFERENCES `owner` (`id`);
+  ADD CONSTRAINT `FKn23j37tfydmexnfpeksxt7cd4` FOREIGN KEY (`updated_by`) REFERENCES `admins` (`id`);
+
+--
+-- Constraints for table `items`
+--
+ALTER TABLE `items`
+  ADD CONSTRAINT `FK5j8vgsyucey8evtof9xe29tsq` FOREIGN KEY (`added_by`) REFERENCES `admins` (`id`),
+  ADD CONSTRAINT `FKcw9omccpkdvalmqlo50u0n9ws` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`),
+  ADD CONSTRAINT `FKhisvl0kn99a6glawu8qlqdg93` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`),
+  ADD CONSTRAINT `FKhjc8vpk27hi2n3i1ehemacdfd` FOREIGN KEY (`updated_by`) REFERENCES `admins` (`id`);
 
 --
 -- Constraints for table `job_type`
 --
 ALTER TABLE `job_type`
   ADD CONSTRAINT `FKe29nw5y7ut8xwqoemokahhfq` FOREIGN KEY (`added_by`) REFERENCES `admins` (`id`),
-  ADD CONSTRAINT `FKfskdummxelw9iu0ch04jg9yne` FOREIGN KEY (`jobtype_id`) REFERENCES `owner` (`id`),
   ADD CONSTRAINT `FKgd2ymndgtnt1n0m8jd932uf38` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
   ADD CONSTRAINT `FKi0cf4krfr07nei4u7jfp4ebkt` FOREIGN KEY (`updated_by`) REFERENCES `admins` (`id`),
-  ADD CONSTRAINT `FKlfjheo4i5qgoqnfosxawsuujc` FOREIGN KEY (`owner_id`) REFERENCES `owner` (`id`);
+  ADD CONSTRAINT `FKlfjheo4i5qgoqnfosxawsuujc` FOREIGN KEY (`owner_id`) REFERENCES `owner` (`id`),
+  ADD CONSTRAINT `FKqlaypy0rav7ho9f6i53rjeapb` FOREIGN KEY (`contractor_id`) REFERENCES `contractor` (`id`);
 
 --
 -- Constraints for table `owner`
@@ -512,15 +550,6 @@ ALTER TABLE `owner`
   ADD CONSTRAINT `FKgj9t0oq2lma0wpu8q7tr1lehk` FOREIGN KEY (`updated_by`) REFERENCES `admins` (`id`),
   ADD CONSTRAINT `FKixi1xkup8hobptk7ji1b58ct6` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`),
   ADD CONSTRAINT `FKny1tegkqko54r8t487mvahvtu` FOREIGN KEY (`added_by`) REFERENCES `admins` (`id`);
-
---
--- Constraints for table `tables`
---
-ALTER TABLE `tables`
-  ADD CONSTRAINT `FK46pakm4434bfqx07vo5h3g6sh` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`),
-  ADD CONSTRAINT `FKg0j8tatx6e1qcbdn9ah2637nw` FOREIGN KEY (`added_by`) REFERENCES `admins` (`id`),
-  ADD CONSTRAINT `FKh79je24xar6appbwdgm1jcjcp` FOREIGN KEY (`updated_by`) REFERENCES `admins` (`id`),
-  ADD CONSTRAINT `FKskehccp2sptq3c20miy7y43qg` FOREIGN KEY (`inovice_id`) REFERENCES `invoice` (`id`);
 
 --
 -- Constraints for table `unit`

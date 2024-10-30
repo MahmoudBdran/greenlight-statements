@@ -23,7 +23,7 @@ public class ItemService {
     }
 
     public Item saveItem(Item item) {
-        if(checkInvoiceInDB(item.getInvoiceId().getId())){
+        if(checkInvoiceInDB(item.getInvoice().getId())){
 
 
             itemRepository.save(item);
@@ -31,7 +31,7 @@ public class ItemService {
                                             .multiply(item.getItemQuantity())
                                             .multiply (item.getPercentage().divide(BigDecimal.valueOf(100)));
 
-            Invoice invoice =invoiceRepository.findById(item.getInvoiceId().getId()).orElseThrow();
+            Invoice invoice =invoiceRepository.findById(item.getInvoice().getId()).orElseThrow();
             invoice.setAmount(invoice.getAmount().add(totalCostOfItem));
             invoiceRepository.save(invoice);
 

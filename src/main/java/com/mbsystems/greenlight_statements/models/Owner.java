@@ -1,5 +1,6 @@
 package com.mbsystems.greenlight_statements.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,8 +55,9 @@ public class Owner {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-//    @OneToMany(mappedBy = "owner")
-//    private List<JobType> jobTypes;
+    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    private List<JobType> jobTypes;
 //
 //    @OneToMany(mappedBy = "jobType.owner")
 //    private List<Invoice> invoices;

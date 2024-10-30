@@ -60,5 +60,7 @@ public class JobType {
     @JoinColumn(name = "contractor_id",referencedColumnName = "id")
     private Contractor contractor;
 
-
+    public JobType(Long id) {
+        this.id = id;
+    }
 }
